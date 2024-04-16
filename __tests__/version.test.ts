@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import assert from 'node:assert'
 import { contextFromEnvironment, generateVersion } from '../src/version'
 
 describe(`generateVersion`, () => {
@@ -15,7 +14,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       ci: false
     }
-    assert.deepEqual(generateVersion('1.2.3-foo', context), {
+    expect(generateVersion('1.2.3-foo', context)).toEqual({
       version: '1.2.3-local'
     })
   })
@@ -25,7 +24,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       tag: '3.2.1'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '3.2.1'
     })
   })
@@ -35,7 +34,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       tag: 'v3.2.1'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '3.2.1'
     })
   })
@@ -45,7 +44,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       tag: 'v1.1.1'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.1.1'
     })
   })
@@ -55,7 +54,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       tag: 'wibble'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       error: 'Invalid semver tag: wibble'
     })
   })
@@ -65,7 +64,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       branch: 'wobble'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-wobble.34'
     })
   })
@@ -77,14 +76,14 @@ describe(`generateVersion`, () => {
         ...defaultContext,
         branch: usesDev
       }
-      assert.deepEqual(generateVersion('1.0.0-local', context), {
+      expect(generateVersion('1.0.0-local', context)).toEqual({
         version: '1.0.0-dev.34'
       })
     })
   }
 
   it(`should error if no branch or tag`, () => {
-    assert.deepEqual(generateVersion('1.0.0-local', defaultContext), {
+    expect(generateVersion('1.0.0-local', defaultContext)).toEqual({
       error: 'Could not determine a version. CI environment invalid?'
     })
   })
@@ -94,7 +93,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       branch: 'feature/£-foo-bar\\blort-1234.99'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-feature.foo.bar.blort.1234.99.34'
     })
   })
@@ -104,7 +103,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       branch: 'feature/my-fave-feature'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-feature.my.fave.feature.34'
     })
   })
@@ -114,7 +113,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       branch: 'foo_bar'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-foo.bar.34'
     })
   })
@@ -124,7 +123,7 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       branch: '---'
     }
-    assert.deepEqual(generateVersion('1.0.0-local', context), {
+    expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-branch.34'
     })
   })
@@ -132,51 +131,48 @@ describe(`generateVersion`, () => {
 
 describe('contextFromEnvironment', () => {
   it('works for GitHub actions branch case', () => {
-    assert.deepEqual(
+    expect(
       contextFromEnvironment({
         GITHUB_ACTION: 'lala',
         CI: 'true',
         GITHUB_REF: 'refs/heads/asdf',
         GITHUB_RUN_NUMBER: '12'
-      }),
-      {
-        branch: 'asdf',
-        buildNumber: 12,
-        ci: true,
-        tag: undefined
-      }
-    )
+      })
+    ).toEqual({
+      branch: 'asdf',
+      buildNumber: 12,
+      ci: true,
+      tag: undefined
+    })
   })
   it('works for GitHub actions tag case', () => {
-    assert.deepEqual(
+    expect(
       contextFromEnvironment({
         GITHUB_ACTION: 'lala',
         CI: 'true',
         GITHUB_REF: 'refs/tags/asdf',
         GITHUB_RUN_NUMBER: '12'
-      }),
-      {
-        branch: undefined,
-        buildNumber: 12,
-        ci: true,
-        tag: 'asdf'
-      }
-    )
+      })
+    ).toEqual({
+      branch: undefined,
+      buildNumber: 12,
+      ci: true,
+      tag: 'asdf'
+    })
   })
   it('works for GitHub actions tag case numeric', () => {
-    assert.deepEqual(
+    expect(
       contextFromEnvironment({
         GITHUB_ACTION: 'lala',
         CI: 'true',
         GITHUB_REF: 'refs/tags/v1.1.1',
         GITHUB_RUN_NUMBER: '12'
-      }),
-      {
-        branch: undefined,
-        buildNumber: 12,
-        ci: true,
-        tag: 'v1.1.1'
-      }
-    )
+      })
+    ).toEqual({
+      branch: undefined,
+      buildNumber: 12,
+      ci: true,
+      tag: 'v1.1.1'
+    })
   })
 })

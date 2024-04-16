@@ -12,7 +12,7 @@ interface VersionUpdateResult {
   error?: string
 }
 
-const parseIntOrThrow = (s: string) => {
+const parseIntOrThrow = (s: string): number => {
   const n = parseInt(s, 10)
   if (isNaN(n)) {
     throw new Error(`Could not parse integer '${s}'`)
@@ -46,7 +46,7 @@ export const contextFromEnvironment = (env: typeof process.env): Context => {
   return github(env)
 }
 
-const sanitizeBranchName = (branch: string) => {
+const sanitizeBranchName = (branch: string): string => {
   if (branch === 'main' || branch === 'master' || branch === 'develop') {
     return 'dev'
   }
@@ -65,10 +65,10 @@ const sanitizeBranchName = (branch: string) => {
  * @param inPackageJson The version number as specified in package.json.
  * @param context The build context from CI.
  */
-export const generateVersion: (
+export const generateVersion = (
   inPackageJson: string,
   context: Context
-) => VersionUpdateResult = (inPackageJson, context) => {
+): VersionUpdateResult => {
   const version = new SemVer(inPackageJson)
   if (!context.ci) {
     version.prerelease = ['local']
