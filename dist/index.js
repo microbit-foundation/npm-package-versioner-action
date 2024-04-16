@@ -28240,7 +28240,6 @@ const version_1 = __nccwpck_require__(1946);
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
-    console.log('XXX', process.env.GITHUB_REF);
     try {
         const packageJsonPath = 'package.json';
         const packageJson = JSON.parse(node_fs_1.default.readFileSync(packageJsonPath, { encoding: 'utf-8' }));
@@ -28258,8 +28257,7 @@ async function run() {
         }
     }
     catch (error) {
-        if (error instanceof Error)
-            core.setFailed(error.message);
+        core.setFailed(error instanceof Error ? error.message : 'Unknown error');
     }
 }
 exports.run = run;
