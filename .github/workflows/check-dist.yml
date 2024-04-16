@@ -12,7 +12,7 @@ name: Check Transpiled JavaScript
 on:
   push:
     branches:
-      - **
+      - '**'
 
 permissions:
   contents: read
