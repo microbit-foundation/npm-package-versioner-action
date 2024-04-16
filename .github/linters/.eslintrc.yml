@@ -72,12 +72,13 @@ rules:
     '@typescript-eslint/prefer-for-of': 'warn',
     '@typescript-eslint/prefer-function-type': 'warn',
     '@typescript-eslint/prefer-includes': 'error',
-    '@typescript-eslint/prefer-string-starts-ends-with': 'error',
+    '@typescript-eslint/prefer-string-starts-ends-with': 'off',
     '@typescript-eslint/promise-function-async': 'error',
     '@typescript-eslint/require-array-sort-compare': 'error',
     '@typescript-eslint/restrict-plus-operands': 'error',
     '@typescript-eslint/semi': ['error', 'never'],
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/type-annotation-spacing': 'error',
-    '@typescript-eslint/unbound-method': 'error'
+    '@typescript-eslint/unbound-method': 'error',
+    'prefer-template': 'off'
   }
