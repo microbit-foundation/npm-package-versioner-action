@@ -12,12 +12,12 @@ The action will write the new version number to package.json.
 
 Usage:
 
-```
+```yaml
 steps:
   - uses: microbit-foundation/npm-package-versioner-action@v1
 ```
 
-## Development documentation from template repo
+## Development documentation from template repository
 
 After you've cloned the repository to your local machine or codespace, you'll
 need to perform some initial setup steps before you can develop your action.
