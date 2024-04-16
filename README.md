@@ -17,21 +17,7 @@ steps:
   - uses: microbit-foundation/npm-package-versioner-action@v1
 ```
 
-## Development documentation from template repository
-
-After you've cloned the repository to your local machine or codespace, you'll
-need to perform some initial setup steps before you can develop your action.
-
-> [!NOTE]
->
-> You'll need to have a reasonably modern version of
-> [Node.js](https://nodejs.org) handy (20.x or later should work!). If you are
-> using a version manager like [`nodenv`](https://github.com/nodenv/nodenv) or
-> [`nvm`](https://github.com/nvm-sh/nvm), this template has a `.node-version`
-> file at the root of the repository that will be used to automatically switch
-> to the correct version when you `cd` into the repository. Additionally, this
-> `.node-version` file is used by GitHub Actions in any `actions/setup-node`
-> actions.
+## Development
 
 1. :hammer_and_wrench: Install the dependencies
 
@@ -39,62 +25,6 @@ need to perform some initial setup steps before you can develop your action.
    npm install
    ```
 
-1. :building_construction: Package the TypeScript for distribution
-
-   ```bash
-   npm run bundle
-   ```
-
-1. :white_check_mark: Run the tests
-
-   ```bash
-   $ npm test
-
-   PASS  ./index.test.js
-     ✓ throws invalid number (3ms)
-     ✓ wait 500 ms (504ms)
-     ✓ test runs (95ms)
-
-   ...
-   ```
-
-## Update the Action Code
-
-The [`src/`](./src/) directory is the heart of your action! This contains the
-source code that will be run when your action is invoked. You can replace the
-contents of this directory with your own code.
-
-There are a few things to keep in mind when writing your action code:
-
-- Most GitHub Actions toolkit and CI/CD operations are processed asynchronously.
-  In `main.ts`, you will see that the action is run in an `async` function.
-
-  ```javascript
-  import * as core from '@actions/core'
-  //...
-
-  async function run() {
-    try {
-      //...
-    } catch (error) {
-      core.setFailed(error.message)
-    }
-  }
-  ```
-
-  For more information about the GitHub Actions toolkit, see the
-  [documentation](https://github.com/actions/toolkit/blob/master/README.md).
-
-So, what are you waiting for? Go ahead and start customizing your action!
-
-1. Create a new branch
-
-   ```bash
-   git checkout -b releases/v1
-   ```
-
-1. Replace the contents of `src/` with your action code
-1. Add tests to `__tests__/` for your source code
 1. Format, test, and build the action
 
    ```bash
@@ -108,78 +38,34 @@ So, what are you waiting for? Go ahead and start customizing your action!
    > `ncc`, which will create a license file for all of the production node
    > modules used in your project.
 
-1. Commit your changes
+This generates files that must be committed.
 
-   ```bash
-   git add .
-   git commit -m "My first action is ready!"
-   ```
+## License
 
-1. Push them to your repository
+This software is under the MIT open source license.
 
-   ```bash
-   git push -u origin releases/v1
-   ```
+[SPDX-License-Identifier: MIT](LICENSE)
 
-1. Create a pull request and get feedback on your action
-1. Merge the pull request into the `main` branch
+We use dependencies via the npm registry as specified by the package.json file
+under common Open Source licenses.
 
-Your action is now published! :rocket:
+Full details of each package can be found by running `license-checker`:
 
-For information about versioning your action, see
-[Versioning](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-in the GitHub Actions toolkit.
-
-## Validate the Action
-
-You can now validate the action by referencing it in a workflow file. For
-example, [`ci.yml`](./.github/workflows/ci.yml) demonstrates how to reference an
-action in the same repository.
-
-```yaml
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v4
-
-  - name: Test Local Action
-    id: test-action
-    uses: ./
-    with:
-      milliseconds: 1000
-
-  - name: Print Output
-    id: output
-    run: echo "${{ steps.test-action.outputs.time }}"
+```bash
+npx license-checker --direct --summary --production
 ```
 
-For example workflow runs, check out the
-[Actions tab](https://github.com/actions/typescript-action/actions)! :rocket:
+Omit the flags as desired to obtain more detail.
 
-## Usage
+## Code of Conduct
 
-After testing, you can create version tag(s) that developers can use to
-reference different stable versions of your action. For more information, see
-[Versioning](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-in the GitHub Actions toolkit.
-
-To include the action in a workflow in another repository, you can use the
-`uses` syntax with the `@` symbol to reference a specific branch, tag, or commit
-hash.
-
-```yaml
-steps:
-  - name: Checkout
-    id: checkout
-    uses: actions/checkout@v4
-
-  - name: Test Local Action
-    id: test-action
-    uses: actions/typescript-action@v1 # Commit with the `v1` tag
-    with:
-      milliseconds: 1000
-
-  - name: Print Output
-    id: output
-    run: echo "${{ steps.test-action.outputs.time }}"
-```
+Trust, partnership, simplicity and passion are our core values we live and
+breathe in our daily work life and within our projects. Our open-source projects
+are no exception. We have an active community which spans the globe and we
+welcome and encourage participation and contributions to our projects by
+everyone. We work to foster a positive, open, inclusive and supportive
+environment and trust that our community respects the micro:bit code of conduct.
+Please see our [code of conduct](https://microbit.org/safeguarding/) which
+outlines our expectations for all those that participate in our community and
+details on how to report any concerns and what would happen should breaches
+occur.
