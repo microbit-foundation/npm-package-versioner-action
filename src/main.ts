@@ -7,6 +7,7 @@ import { contextFromEnvironment, generateVersion } from './version'
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 export async function run(): Promise<void> {
+  console.log('XXX', process.env.GITHUB_REF)
   try {
     const packageJsonPath = 'package.json'
     const packageJson = JSON.parse(
