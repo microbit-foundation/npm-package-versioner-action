@@ -46,13 +46,13 @@ This software is under the MIT open source license.
 
 [SPDX-License-Identifier: MIT](LICENSE)
 
-We use dependencies via the NPM registry as specified by the package.json file
+We use dependencies via the npm registry as specified by the package.json file
 under common Open Source licenses.
 
 Full details of each package can be found by running `license-checker`:
 
 ```bash
-$ npx license-checker --direct --summary --production
+npx license-checker --direct --summary --production
 ```
 
 Omit the flags as desired to obtain more detail.
