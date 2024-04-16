@@ -1,21 +1,21 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
+  "name": "@microbit/npm-package-versioner-action",
+  "description": "GitHub action to manage NPM package versions",
+  "version": "0.0.0-local",
   "author": "",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/microbit-foundation/npm-package-versioner-action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/microbit-foundation/npm-package-versioner/issues"
   },
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "version",
+    "npm"
   ],
   "exports": {
     ".": "./dist/index.js"
