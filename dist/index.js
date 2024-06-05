@@ -28241,6 +28241,12 @@ const version_1 = __nccwpck_require__(1946);
  */
 async function run() {
     try {
+        // Unfortunately "uses" steps aren't affected by the job-wide working-directory
+        // setting so we add our own.
+        const workingDirectory = core.getInput('working-directory');
+        if (workingDirectory) {
+            process.chdir(workingDirectory);
+        }
         const packageJsonPath = 'package.json';
         const packageJson = JSON.parse(node_fs_1.default.readFileSync(packageJsonPath, { encoding: 'utf-8' }));
         const context = (0, version_1.contextFromEnvironment)(process.env);

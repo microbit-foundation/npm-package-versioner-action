@@ -3,7 +3,11 @@ description:
   'Sets a semver package version based on the existing version and the
   branch/tag/build number'
 author: 'Micro:bit Educational Foundation'
-
+inputs:
+  working-directory:
+    description: 'Working directory for this step'
+    required: false
+    default: '.'
 runs:
   using: node20
   main: dist/index.js
