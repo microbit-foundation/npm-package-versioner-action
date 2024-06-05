@@ -8,6 +8,13 @@ import { contextFromEnvironment, generateVersion } from './version'
  */
 export async function run(): Promise<void> {
   try {
+    // Unfortunately "uses" steps aren't affected by the job-wide working-directory
+    // setting so we add our own.
+    const workingDirectory = core.getInput('working-directory')
+    if (workingDirectory) {
+      process.chdir(workingDirectory)
+    }
+
     const packageJsonPath = 'package.json'
     const packageJson = JSON.parse(
       fs.readFileSync(packageJsonPath, { encoding: 'utf-8' })
