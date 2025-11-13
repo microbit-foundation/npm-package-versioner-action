@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import fs from 'node:fs'
-import { contextFromEnvironment, generateVersion } from './version'
+import { contextFromEnvironment, generateVersion } from './version.js'
 
 /**
  * The main function for the action.

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-import { contextFromEnvironment, generateVersion } from '../src/version'
+import { contextFromEnvironment, generateVersion } from '../src/version.js'
 
 describe(`generateVersion`, () => {
   const defaultContext = {
