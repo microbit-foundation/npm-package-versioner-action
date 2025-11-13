@@ -1,4 +1,4 @@
-# NPM package versioner GitHub action
+# npm package versioner GitHub Action
 
 [![GitHub Super-Linter](https://github.com/actions/typescript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/actions/typescript-action/actions/workflows/ci.yml/badge.svg)
@@ -6,7 +6,7 @@
 [![CodeQL](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
-A GitHub Action that automatically manages semantic versioning for NPM packages
+A GitHub Action that automatically manages semantic versioning for npm packages
 based on your CI/CD context.
 
 ## Purpose
@@ -16,9 +16,9 @@ file based on the GitHub Actions environment. It generates semantic version
 numbers appropriate to your build context:
 
 - **Tags**: Uses the tag name as the version (e.g., `v1.2.3` becomes `1.2.3`)
-- **Branches**: Creates pre-release versions with the branch name and build
+- **Branches**: Creates prerelease versions with the branch name and build
   number (e.g., `1.0.0-feature.123.456`)
-- **Local development**: Adds a `-local` pre-release identifier
+- **Local development**: Adds a `-local` prerelease identifier
 
 This eliminates manual version management and ensures consistent versioning
 across your CI/CD pipeline.
@@ -86,33 +86,56 @@ This makes it clear that:
 
 - The version is automatically managed by the CI/CD pipeline
 - The checked-in version is not intended for publication
-- Local development will use the `-local` pre-release identifier
+- Local development will use the `-local` prerelease identifier
 
 The action will overwrite this placeholder with the appropriate version during
 your CI/CD workflow.
 
 ## Development
 
-1. :hammer_and_wrench: Install the dependencies
+### Prerequisites
+
+- Node.js 24.x or later
+- npm
+
+### Setup and Building
+
+1. Install the dependencies
 
    ```bash
    npm install
    ```
 
-1. Format, test, and build the action
+2. Format, test, and build the action
 
    ```bash
    npm run all
    ```
 
-   > This step is important! It will run [`ncc`](https://github.com/vercel/ncc)
-   > to build the final JavaScript action code with all dependencies included.
-   > If you do not run this step, your action will not work correctly when it is
-   > used in a workflow. This step also includes the `--license` option for
-   > `ncc`, which will create a license file for all of the production node
-   > modules used in your project.
+   This will:
+   - Format code with Prettier
+   - Lint with ESLint
+   - Run tests with Jest
+   - Generate coverage reports
+   - Build the distribution bundle with Rollup
 
-This generates files that must be committed.
+   > **Important:** The build step uses [Rollup](https://rollupjs.org/) to
+   > bundle the TypeScript source into a single ES module at `dist/index.js`
+   > with all dependencies included. You must run `npm run all` (or
+   > `npm run package`) before committing to ensure the `dist/` directory is up
+   > to date.
+
+### Available Scripts
+
+- `npm run format:write` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+- `npm run lint` - Lint code with ESLint
+- `npm test` - Run tests
+- `npm run coverage` - Generate coverage badge
+- `npm run package` - Build the distribution bundle
+- `npm run all` - Run all of the above
+
+The generated `dist/` directory must be committed to the repository.
 
 ## License
 
