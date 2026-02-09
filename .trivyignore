@@ -1,0 +1,3 @@
+# undici is a transitive dependency of @actions/http-client
+# which is maintained by GitHub. We can't easily update it.
+CVE-2026-22036

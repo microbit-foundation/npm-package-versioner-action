@@ -56,8 +56,8 @@ and the GitHub environment:
 
 | Context                          | Example Output          | Notes                                  |
 | -------------------------------- | ----------------------- | -------------------------------------- |
-| Tag `v1.2.3`                     | `1.2.3`                 | Non-numeric prefix stripped             |
-| Tag `www-1.2.3`                  | `1.2.3`                 | Supports monorepo tag prefixes          |
+| Tag `v1.2.3`                     | `1.2.3`                 | Non-numeric prefix stripped            |
+| Tag `www-1.2.3`                  | `1.2.3`                 | Supports monorepo tag prefixes         |
 | Branch `main` + build 456        | `1.0.0-dev.456`         | Main/master/develop branches use `dev` |
 | Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | Branch name is sanitized               |
 | Local (no CI)                    | `1.0.0-local`           | For local development                  |
