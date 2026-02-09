@@ -30027,9 +30027,9 @@ const generateVersion = (inPackageJson, context) => {
         return { version: version.format() };
     }
     if (context.tag) {
-        const tag = context.tag.charAt(0) === 'v' ? context.tag.substring(1) : context.tag;
+        const tag = context.tag.replace(/^[^0-9]*/, '');
         if (!semverExports.valid(tag)) {
-            return { error: 'Invalid semver tag: ' + tag };
+            return { error: 'Invalid semver tag: ' + context.tag };
         }
         return { version: tag };
     }

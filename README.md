@@ -15,7 +15,8 @@ This action automatically updates the `version` field in your `package.json`
 file based on the GitHub Actions environment. It generates semantic version
 numbers appropriate to your build context:
 
-- **Tags**: Uses the tag name as the version (e.g., `v1.2.3` becomes `1.2.3`)
+- **Tags**: Uses the tag name as the version, stripping any non-numeric prefix
+  (e.g., `v1.2.3` → `1.2.3`, `www-1.2.3` → `1.2.3`)
 - **Branches**: Creates prerelease versions with the branch name and build
   number (e.g., `1.0.0-feature.123.456`)
 - **Local development**: Adds a `-local` prerelease identifier
@@ -55,7 +56,8 @@ and the GitHub environment:
 
 | Context                          | Example Output          | Notes                                  |
 | -------------------------------- | ----------------------- | -------------------------------------- |
-| Tag `v1.2.3`                     | `1.2.3`                 | Uses the exact tag version             |
+| Tag `v1.2.3`                     | `1.2.3`                 | Non-numeric prefix stripped             |
+| Tag `www-1.2.3`                  | `1.2.3`                 | Supports monorepo tag prefixes          |
 | Branch `main` + build 456        | `1.0.0-dev.456`         | Main/master/develop branches use `dev` |
 | Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | Branch name is sanitized               |
 | Local (no CI)                    | `1.0.0-local`           | For local development                  |
