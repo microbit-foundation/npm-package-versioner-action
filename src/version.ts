@@ -20,7 +20,7 @@ const parseIntOrThrow = (s: string): number => {
   return n
 }
 
-const github: (env: typeof process.env) => Context = env => {
+const github: (env: typeof process.env) => Context = (env) => {
   const ref = env.GITHUB_REF
   let branch: string | undefined
   let tag: string | undefined
@@ -54,8 +54,8 @@ const sanitizeBranchName = (branch: string): string => {
   return (
     branch
       .split(/[\\/\-._]/)
-      .map(x => x.replace(/[^a-zA-Z0-9]/, '').replace(/^0+/, ''))
-      .filter(x => x.length > 0)
+      .map((x) => x.replace(/[^a-zA-Z0-9]/, '').replace(/^0+/, ''))
+      .filter((x) => x.length > 0)
       .join('.') || 'branch'
   )
 }
