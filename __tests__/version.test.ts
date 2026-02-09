@@ -120,10 +120,10 @@ describe(`generateVersion`, () => {
   it(`should use dot separated components as per semver`, () => {
     const context = {
       ...defaultContext,
-      branch: 'feature/my-fave-feature'
+      branch: 'feature/my-cool-feature'
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '1.0.0-feature.my.fave.feature.34'
+      version: '1.0.0-feature.my.cool.feature.34'
     })
   })
 
