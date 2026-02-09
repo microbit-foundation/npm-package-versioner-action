@@ -48,6 +48,26 @@ describe(`generateVersion`, () => {
     })
   })
 
+  it(`should strip app name prefix from tags`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'www-1.2.3'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '1.2.3'
+    })
+  })
+
+  it(`should strip multi-word prefix from tags`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'my-app-2.0.0'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '2.0.0'
+    })
+  })
+
   it(`should error for non-semver tag`, () => {
     const context = {
       ...defaultContext,
