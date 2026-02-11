@@ -29,6 +29,10 @@ const github: (env: typeof process.env) => Context = (env) => {
       tag = ref.slice('refs/tags/'.length)
     } else if (ref.startsWith('refs/heads/')) {
       branch = ref.slice('refs/heads/'.length)
+    } else if (env.GITHUB_HEAD_REF) {
+      // Pull request: GITHUB_REF is refs/pull/<n>/merge,
+      // GITHUB_HEAD_REF is the source branch name.
+      branch = env.GITHUB_HEAD_REF
     }
   }
   return {
