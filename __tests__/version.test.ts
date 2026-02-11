@@ -194,4 +194,20 @@ describe('contextFromEnvironment', () => {
       tag: 'v1.1.1'
     })
   })
+  it('works for GitHub actions pull request case', () => {
+    expect(
+      contextFromEnvironment({
+        GITHUB_ACTION: 'lala',
+        CI: 'true',
+        GITHUB_REF: 'refs/pull/17/merge',
+        GITHUB_HEAD_REF: 'feature/my-branch',
+        GITHUB_RUN_NUMBER: '12'
+      })
+    ).toEqual({
+      branch: 'feature/my-branch',
+      buildNumber: 12,
+      ci: true,
+      tag: undefined
+    })
+  })
 })
