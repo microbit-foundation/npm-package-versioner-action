@@ -14,7 +14,8 @@ describe(`generateVersion`, () => {
       ci: false
     }
     expect(generateVersion('1.2.3-foo', context)).toEqual({
-      version: '1.2.3-local'
+      version: '1.2.3-local',
+      distTag: 'local'
     })
   })
 
@@ -23,9 +24,9 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       tag: '3.2.1'
     }
-    expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '3.2.1'
-    })
+    const result = generateVersion('1.0.0-local', context)
+    expect(result).toEqual({ version: '3.2.1' })
+    expect(result).not.toHaveProperty('distTag')
   })
 
   it(`should strip the v prefix from tags`, () => {
@@ -45,6 +46,28 @@ describe(`generateVersion`, () => {
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.1.1'
+    })
+  })
+
+  it(`should return tag for prerelease tags`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'v0.1.0-alpha.1'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '0.1.0-alpha.1',
+      distTag: 'alpha'
+    })
+  })
+
+  it(`should return tag for prerelease tags with numeric first identifier`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'v1.0.0-0.beta.1'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '1.0.0-0.beta.1',
+      distTag: '0'
     })
   })
 
@@ -84,7 +107,8 @@ describe(`generateVersion`, () => {
       branch: 'wobble'
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '1.0.0-wobble.34'
+      version: '1.0.0-wobble.34',
+      distTag: 'wobble'
     })
   })
 
@@ -96,7 +120,8 @@ describe(`generateVersion`, () => {
         branch: usesDev
       }
       expect(generateVersion('1.0.0-local', context)).toEqual({
-        version: '1.0.0-dev.34'
+        version: '1.0.0-dev.34',
+        distTag: 'dev'
       })
     })
   }
@@ -113,7 +138,8 @@ describe(`generateVersion`, () => {
       branch: 'feature/£-foo-bar\\blort-1234.99'
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '1.0.0-feature.foo.bar.blort.1234.99.34'
+      version: '1.0.0-feature.foo.bar.blort.1234.99.34',
+      distTag: 'feature-foo-bar-blort-1234-99'
     })
   })
 
@@ -123,7 +149,8 @@ describe(`generateVersion`, () => {
       branch: 'feature/my-cool-feature'
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '1.0.0-feature.my.cool.feature.34'
+      version: '1.0.0-feature.my.cool.feature.34',
+      distTag: 'feature-my-cool-feature'
     })
   })
 
@@ -133,7 +160,8 @@ describe(`generateVersion`, () => {
       branch: 'foo_bar'
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '1.0.0-foo.bar.34'
+      version: '1.0.0-foo.bar.34',
+      distTag: 'foo-bar'
     })
   })
 
@@ -143,7 +171,8 @@ describe(`generateVersion`, () => {
       branch: '---'
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '1.0.0-branch.34'
+      version: '1.0.0-branch.34',
+      distTag: 'branch'
     })
   })
 })

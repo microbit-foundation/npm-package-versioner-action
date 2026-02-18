@@ -21,6 +21,12 @@ numbers appropriate to your build context:
   number (e.g., `1.0.0-feature.123.456`)
 - **Local development**: Adds a `-local` prerelease identifier
 
+For prerelease versions, the action also sets `publishConfig.tag` in
+`package.json` so that `npm publish` uses the correct
+[dist-tag](https://docs.npmjs.com/cli/commands/npm-dist-tag) automatically
+(e.g., `alpha`, `dev`). This is required by npm v11+, which no longer allows
+publishing prerelease versions without an explicit `--tag`.
+
 This eliminates manual version management and ensures consistent versioning
 across your CI/CD pipeline.
 
@@ -33,7 +39,7 @@ Add this action to your workflow before building or publishing your package:
 ```yaml
 steps:
   - uses: actions/checkout@v4
-  - uses: microbit-foundation/npm-package-versioner-action@v1
+  - uses: microbit-foundation/npm-package-versioner-action@v3
   - run: npm run build
   - run: npm publish
 ```
@@ -44,7 +50,7 @@ If your `package.json` is not in the repository root:
 
 ```yaml
 steps:
-  - uses: microbit-foundation/npm-package-versioner-action@v1
+  - uses: microbit-foundation/npm-package-versioner-action@v3
     with:
       working-directory: ./packages/my-package
 ```
@@ -54,20 +60,23 @@ steps:
 The action generates versions based on the base version in your `package.json`
 and the GitHub environment:
 
-| Context                          | Example Output          | Notes                                  |
-| -------------------------------- | ----------------------- | -------------------------------------- |
-| Tag `v1.2.3`                     | `1.2.3`                 | Non-numeric prefix stripped            |
-| Tag `www-1.2.3`                  | `1.2.3`                 | Supports monorepo tag prefixes         |
-| Branch `main` + build 456        | `1.0.0-dev.456`         | Main/master/develop branches use `dev` |
-| Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | Branch name is sanitized               |
-| Local (no CI)                    | `1.0.0-local`           | For local development                  |
+| Context                          | Example Output          | Dist-tag      | Notes                                    |
+| -------------------------------- | ----------------------- | ------------- | ---------------------------------------- |
+| Tag `v1.2.3`                     | `1.2.3`                 | _not set_     | Stable release, npm defaults to `latest` |
+| Tag `v1.2.3-alpha.1`             | `1.2.3-alpha.1`         | `alpha`       | Prerelease dist-tag from identifier      |
+| Tag `www-1.2.3`                  | `1.2.3`                 | _not set_     | Supports monorepo tag prefixes           |
+| Branch `main` + build 456        | `1.0.0-dev.456`         | `dev`         | Main/master/develop branches use `dev`   |
+| Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | `feature-foo` | Branch name sanitized, `-` separated     |
+| Local (no CI)                    | `1.0.0-local`           | `local`       | For local development                    |
 
 Branch names are sanitized by:
 
 - Converting `main`, `master`, and `develop` to `dev`
 - Splitting on `/`, `\`, `-`, `.`, and `_`
 - Removing non-alphanumeric characters
-- Joining parts with `.`
+- Joining parts with `.` in the SemVer prerelease identifier, and `-` in the
+  dist-tag (e.g. branch `feature/foo` → version `1.0.0-feature.foo.123`,
+  dist-tag `feature-foo`)
 
 ## Best Practices
 
