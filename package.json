@@ -1,7 +1,7 @@
 {
   "name": "@microbit/npm-package-versioner-action",
   "description": "GitHub action to manage NPM package versions",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": "",
   "type": "module",
   "private": true,
