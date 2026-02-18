@@ -30038,7 +30038,7 @@ const generateVersion = (inPackageJson, context) => {
     if (branch && typeof context.buildNumber !== 'undefined') {
         const sanitized = sanitizeBranchName(branch);
         version.prerelease = [sanitized, context.buildNumber.toString(10)];
-        return { version: version.format(), distTag: sanitized };
+        return { version: version.format(), distTag: sanitized.replace(/\./g, '-') };
     }
     return { error: 'Could not determine a version. CI environment invalid?' };
 };

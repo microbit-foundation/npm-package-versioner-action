@@ -66,7 +66,7 @@ and the GitHub environment:
 | Tag `v1.2.3-alpha.1`             | `1.2.3-alpha.1`         | `alpha`       | Prerelease dist-tag from identifier      |
 | Tag `www-1.2.3`                  | `1.2.3`                 | _not set_     | Supports monorepo tag prefixes           |
 | Branch `main` + build 456        | `1.0.0-dev.456`         | `dev`         | Main/master/develop branches use `dev`   |
-| Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | `feature.foo` | Branch name is sanitized                 |
+| Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | `feature-foo` | Branch name sanitized, `-` separated     |
 | Local (no CI)                    | `1.0.0-local`           | `local`       | For local development                    |
 
 Branch names are sanitized by:
@@ -74,7 +74,9 @@ Branch names are sanitized by:
 - Converting `main`, `master`, and `develop` to `dev`
 - Splitting on `/`, `\`, `-`, `.`, and `_`
 - Removing non-alphanumeric characters
-- Joining parts with `.`
+- Joining parts with `.` in the SemVer prerelease identifier, and `-` in the
+  dist-tag (e.g. branch `feature/foo` → version `1.0.0-feature.foo.123`,
+  dist-tag `feature-foo`)
 
 ## Best Practices
 

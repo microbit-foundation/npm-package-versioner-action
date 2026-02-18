@@ -24,9 +24,9 @@ describe(`generateVersion`, () => {
       ...defaultContext,
       tag: '3.2.1'
     }
-    expect(generateVersion('1.0.0-local', context)).toEqual({
-      version: '3.2.1'
-    })
+    const result = generateVersion('1.0.0-local', context)
+    expect(result).toEqual({ version: '3.2.1' })
+    expect(result).not.toHaveProperty('distTag')
   })
 
   it(`should strip the v prefix from tags`, () => {
@@ -57,6 +57,17 @@ describe(`generateVersion`, () => {
     expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '0.1.0-alpha.1',
       distTag: 'alpha'
+    })
+  })
+
+  it(`should return tag for prerelease tags with numeric first identifier`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'v1.0.0-0.beta.1'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '1.0.0-0.beta.1',
+      distTag: '0'
     })
   })
 
@@ -128,7 +139,7 @@ describe(`generateVersion`, () => {
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-feature.foo.bar.blort.1234.99.34',
-      distTag: 'feature.foo.bar.blort.1234.99'
+      distTag: 'feature-foo-bar-blort-1234-99'
     })
   })
 
@@ -139,7 +150,7 @@ describe(`generateVersion`, () => {
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-feature.my.cool.feature.34',
-      distTag: 'feature.my.cool.feature'
+      distTag: 'feature-my-cool-feature'
     })
   })
 
@@ -150,7 +161,7 @@ describe(`generateVersion`, () => {
     }
     expect(generateVersion('1.0.0-local', context)).toEqual({
       version: '1.0.0-foo.bar.34',
-      distTag: 'foo.bar'
+      distTag: 'foo-bar'
     })
   })
 
