@@ -30022,22 +30022,23 @@ const generateVersion = (inPackageJson, context) => {
     const version = new semverExports.SemVer(inPackageJson);
     if (!context.ci) {
         version.prerelease = ['local'];
-        return { version: version.format() };
+        return { version: version.format(), distTag: 'local' };
     }
     if (context.tag) {
-        const tag = context.tag.replace(/^[^0-9]*/, '');
-        if (!semverExports.valid(tag)) {
+        const gitTag = context.tag.replace(/^[^0-9]*/, '');
+        if (!semverExports.valid(gitTag)) {
             return { error: 'Invalid semver tag: ' + context.tag };
         }
-        return { version: tag };
+        const pre = semverExports.prerelease(gitTag);
+        return pre
+            ? { version: gitTag, distTag: String(pre[0]) }
+            : { version: gitTag };
     }
     const { branch } = context;
     if (branch && typeof context.buildNumber !== 'undefined') {
-        version.prerelease = [
-            sanitizeBranchName(branch),
-            context.buildNumber.toString(10)
-        ];
-        return { version: version.format() };
+        const sanitized = sanitizeBranchName(branch);
+        version.prerelease = [sanitized, context.buildNumber.toString(10)];
+        return { version: version.format(), distTag: sanitized };
     }
     return { error: 'Could not determine a version. CI environment invalid?' };
 };
@@ -30057,13 +30058,19 @@ async function run() {
         const packageJsonPath = 'package.json';
         const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf-8' }));
         const context = contextFromEnvironment(process.env);
-        const { error, version } = generateVersion(packageJson.version, context);
+        const { error, version, distTag } = generateVersion(packageJson.version, context);
         if (error || !version) {
             coreExports.setFailed(error ?? 'No version generated');
         }
         else {
             console.log(`Updating package version to ${version}`);
             packageJson.version = version;
+            if (distTag) {
+                packageJson.publishConfig = {
+                    ...packageJson.publishConfig,
+                    tag: distTag
+                };
+            }
             fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, undefined, 2), {
                 encoding: 'utf-8'
             });

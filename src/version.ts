@@ -1,4 +1,4 @@
-import { SemVer, valid as isValidSemVer } from 'semver'
+import { SemVer, valid as isValidSemVer, prerelease } from 'semver'
 
 interface Context {
   ci: boolean
@@ -9,6 +9,7 @@ interface Context {
 
 interface VersionUpdateResult {
   version?: string
+  distTag?: string
   error?: string
 }
 
@@ -76,22 +77,23 @@ export const generateVersion = (
   const version = new SemVer(inPackageJson)
   if (!context.ci) {
     version.prerelease = ['local']
-    return { version: version.format() }
+    return { version: version.format(), distTag: 'local' }
   }
   if (context.tag) {
-    const tag = context.tag.replace(/^[^0-9]*/, '')
-    if (!isValidSemVer(tag)) {
+    const gitTag = context.tag.replace(/^[^0-9]*/, '')
+    if (!isValidSemVer(gitTag)) {
       return { error: 'Invalid semver tag: ' + context.tag }
     }
-    return { version: tag }
+    const pre = prerelease(gitTag)
+    return pre
+      ? { version: gitTag, distTag: String(pre[0]) }
+      : { version: gitTag }
   }
   const { branch } = context
   if (branch && typeof context.buildNumber !== 'undefined') {
-    version.prerelease = [
-      sanitizeBranchName(branch),
-      context.buildNumber.toString(10)
-    ]
-    return { version: version.format() }
+    const sanitized = sanitizeBranchName(branch)
+    version.prerelease = [sanitized, context.buildNumber.toString(10)]
+    return { version: version.format(), distTag: sanitized }
   }
   return { error: 'Could not determine a version. CI environment invalid?' }
 }

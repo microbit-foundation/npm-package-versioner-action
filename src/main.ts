@@ -18,14 +18,23 @@ export async function run(): Promise<void> {
     const packageJsonPath = 'package.json'
     const packageJson = JSON.parse(
       fs.readFileSync(packageJsonPath, { encoding: 'utf-8' })
-    ) as { version: string }
+    ) as { version: string; publishConfig?: { tag?: string } }
     const context = contextFromEnvironment(process.env)
-    const { error, version } = generateVersion(packageJson.version, context)
+    const { error, version, distTag } = generateVersion(
+      packageJson.version,
+      context
+    )
     if (error || !version) {
       core.setFailed(error ?? 'No version generated')
     } else {
       console.log(`Updating package version to ${version}`)
       packageJson.version = version
+      if (distTag) {
+        packageJson.publishConfig = {
+          ...packageJson.publishConfig,
+          tag: distTag
+        }
+      }
       fs.writeFileSync(
         packageJsonPath,
         JSON.stringify(packageJson, undefined, 2),
