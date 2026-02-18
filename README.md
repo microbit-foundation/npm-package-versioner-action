@@ -60,14 +60,14 @@ steps:
 The action generates versions based on the base version in your `package.json`
 and the GitHub environment:
 
-| Context                          | Example Output          | Dist-tag        | Notes                                  |
-| -------------------------------- | ----------------------- | --------------- | -------------------------------------- |
-| Tag `v1.2.3`                     | `1.2.3`                 | _not set_       | Stable release, npm defaults to `latest`|
-| Tag `v1.2.3-alpha.1`             | `1.2.3-alpha.1`         | `alpha`         | Prerelease dist-tag from identifier    |
-| Tag `www-1.2.3`                  | `1.2.3`                 | _not set_       | Supports monorepo tag prefixes         |
-| Branch `main` + build 456        | `1.0.0-dev.456`         | `dev`           | Main/master/develop branches use `dev` |
-| Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | `feature.foo`   | Branch name is sanitized               |
-| Local (no CI)                    | `1.0.0-local`           | `local`         | For local development                  |
+| Context                          | Example Output          | Dist-tag      | Notes                                    |
+| -------------------------------- | ----------------------- | ------------- | ---------------------------------------- |
+| Tag `v1.2.3`                     | `1.2.3`                 | _not set_     | Stable release, npm defaults to `latest` |
+| Tag `v1.2.3-alpha.1`             | `1.2.3-alpha.1`         | `alpha`       | Prerelease dist-tag from identifier      |
+| Tag `www-1.2.3`                  | `1.2.3`                 | _not set_     | Supports monorepo tag prefixes           |
+| Branch `main` + build 456        | `1.0.0-dev.456`         | `dev`         | Main/master/develop branches use `dev`   |
+| Branch `feature/foo` + build 123 | `1.0.0-feature.foo.123` | `feature.foo` | Branch name is sanitized                 |
+| Local (no CI)                    | `1.0.0-local`           | `local`       | For local development                    |
 
 Branch names are sanitized by:
 
