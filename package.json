@@ -22,7 +22,12 @@
     ".": "./dist/index.js"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=11.18.0"
+  },
+  "allowScripts": {
+    "fsevents": true,
+    "unrs-resolver": true
   },
   "scripts": {
     "bundle": "npm run format:write && npm run package",
