@@ -1,30 +1,3 @@
 # undici is a transitive dependency of @actions/http-client
 # which is maintained by GitHub. We can't easily update it.
 CVE-2026-22036
-
-# The CVEs below are all in undici 5.29.0, reached via
-# @actions/core -> @actions/http-client -> undici ^5.25.4.
-# Every fix is in undici 6.x/7.x/8.x, so there is no 5.x release to
-# upgrade to while @actions/http-client pins ^5.25.4.
-#
-# All of them need an outbound HTTP or WebSocket request to exploit.
-# This action makes none: it reads and writes package.json via node:fs
-# and uses @actions/core only for getInput/setFailed/info. The undici
-# code is present in dist/index.js because rollup bundles all of
-# @actions/core, but nothing in this action calls into it.
-#
-# Revisit when @actions/http-client moves to undici 6+.
-
-# Denial of service via WebSocket handling
-CVE-2026-12151
-CVE-2026-1526
-CVE-2026-2229
-
-# HTTP request smuggling / header injection
-CVE-2026-1525
-CVE-2026-1527
-CVE-2026-9679
-
-# Cookie parsing
-CVE-2026-11525
-CVE-2026-6733
