@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         id: setup-node
@@ -36,6 +36,10 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
+
+      - name: Update npm
+        id: update-npm
+        run: npm install -g npm@11 --registry=https://registry.npmjs.org
 
       - name: Install Dependencies
         id: install
