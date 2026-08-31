@@ -34086,7 +34086,7 @@ async function run() {
                     tag: distTag
                 };
             }
-            fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, undefined, 2), {
+            fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, undefined, 2) + '\n', {
                 encoding: 'utf-8'
             });
         }

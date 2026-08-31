@@ -37,7 +37,7 @@ export async function run(): Promise<void> {
       }
       fs.writeFileSync(
         packageJsonPath,
-        JSON.stringify(packageJson, undefined, 2),
+        JSON.stringify(packageJson, undefined, 2) + '\n',
         {
           encoding: 'utf-8'
         }
