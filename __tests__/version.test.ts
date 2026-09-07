@@ -91,6 +91,27 @@ describe(`generateVersion`, () => {
     })
   })
 
+  it(`should strip a prefix that contains digits`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'i18n-tools-v0.1.0'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '0.1.0'
+    })
+  })
+
+  it(`should strip a prefix with a v before a prerelease version`, () => {
+    const context = {
+      ...defaultContext,
+      tag: 'ui-carousel-v1.0.0-beta.2'
+    }
+    expect(generateVersion('1.0.0-local', context)).toEqual({
+      version: '1.0.0-beta.2',
+      distTag: 'beta'
+    })
+  })
+
   it(`should error for non-semver tag`, () => {
     const context = {
       ...defaultContext,
