@@ -4,9 +4,8 @@ import { contextFromEnvironment, generateVersion } from './version.js'
 
 /**
  * The main function for the action.
- * @returns {Promise<void>} Resolves when the action is complete.
  */
-export async function run(): Promise<void> {
+export function run(): void {
   try {
     // Unfortunately "uses" steps aren't affected by the job-wide working-directory
     // setting so we add our own.
