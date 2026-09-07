@@ -151,7 +151,7 @@ The generated `dist/` directory must be committed to the repository.
 ### Release process
 
 1. Commit and push a manual version bump
-2. Release in GitHub actions with vX.Y.Z tag matching the package.json version
+2. Release in GitHub Releases with vX.Y.Z tag matching the package.json version
 3. Tag the major with `git tag -f vX BUMP_REVISION`
 4. Push the major tag with `git push origin vX --force`
 
