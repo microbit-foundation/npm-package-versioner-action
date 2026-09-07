@@ -80,7 +80,9 @@ export const generateVersion = (
     return { version: version.format(), distTag: 'local' }
   }
   if (context.tag) {
-    const gitTag = context.tag.replace(/^[^0-9]*/, '')
+    // Drop a package prefix (`v`, `www-`, `i18n-tools-v`), which may itself
+    // contain digits, up to the first x.y.z.
+    const gitTag = context.tag.replace(/^.*?(?=\d+\.\d+\.\d+)/, '')
     if (!isValidSemVer(gitTag)) {
       return { error: 'Invalid semver tag: ' + context.tag }
     }
